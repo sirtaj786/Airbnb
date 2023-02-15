@@ -75,7 +75,7 @@ app.post('/register', async (req,res) => {
     res.cookie('token', '').send(true);
   });
 
-app.listen(8000||process.env.PORT,async()=>{
+app.listen(process.env.PORT,async()=>{
     try {
         await connection;
         console.log("Connected to server");
