@@ -8,6 +8,10 @@ const dotenv=require("dotenv")
 const bcrypt=require("bcrypt")
 const User = require('./Model/user.model');
 const multer = require('multer');
+const PlaceModel = require("./Model/place.schema");
+const BookingModel = require("./Model/booking.schema");
+const imageDownloader = require('image-downloader');
+const fs=require("fs")
 
 
 
@@ -125,7 +129,7 @@ app.post('/upload-by-link', async (req,res) => {
     } = req.body;
     jwt.verify(token, process.env.SECRET_KEY, {}, async (err, userData) => {
       if (err) throw err;
-      const placeDoc = await Place.create({
+      const placeDoc = await PlaceModel.create({
         owner:userData.id,price,
         title,address,photos:addedPhotos,description,
         perks,extraInfo,checkIn,checkOut,maxGuests,
@@ -134,37 +138,38 @@ app.post('/upload-by-link', async (req,res) => {
     });
   });
 
+
   app.get('/user-places', (req,res) => {
     const {token} = req.cookies;
     jwt.verify(token,process.env.SECRET_KEY, {}, async (err, userData) => {
       const {id} = userData;
-      res.json( await Place.find({owner:id}) );
+      res.json( await PlaceModel.find({owner:id}) );
     });
   });
 
-  app.get('/user-places', (req,res) => {
-    const {token} = req.cookies;
-    jwt.verify(token, process.env.SECRET_KEY, {}, async (err, userData) => {
-      const {id} = userData;
-      res.json( await Place.find({owner:id}) );
-    });
-  });
+  // app.get('/user-places', (req,res) => {
+  //   const {token} = req.cookies;
+  //   jwt.verify(token, process.env.SECRET_KEY, {}, async (err, userData) => {
+  //     const {id} = userData;
+  //     res.json( await Place.find({owner:id}) );
+  //   });
+  // });
 
   app.get('/places/:id', async (req,res) => {
     const {id} = req.params;
-    res.json(await Place.findById(id));
+    res.json(await PlaceModel.findById(id));
   });
 
 
   app.get('/places', async (req,res) => {
-    res.json( await Place.find() );
+    res.json( await PlaceModel.find() );
   });
   app.post('/bookings', async (req, res) => {
     const userData = await getUserDataFromReq(req);
     const {
       place,checkIn,checkOut,numberOfGuests,name,phone,price,
     } = req.body;
-    Booking.create({
+    BookingModel.create({
       place,checkIn,checkOut,numberOfGuests,name,phone,price,
       user:userData.id,
     }).then((doc) => {
@@ -176,7 +181,7 @@ app.post('/upload-by-link', async (req,res) => {
 
   app.get('/bookings', async (req,res) => {
     const userData = await getUserDataFromReq(req);
-    res.json( await Booking.find({user:userData.id}).populate('place') );
+    res.json( await BookingModel.find({user:userData.id}).populate('place') );
   });
 
 app.listen(process.env.PORT,async()=>{
