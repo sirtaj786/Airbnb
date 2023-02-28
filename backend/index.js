@@ -52,7 +52,7 @@ app.post('/register', async (req,res) => {
       });
       user.save();
       // console.log(userDoc)
-      res.send("SignUp Successfull ");
+      res.send("SignUp Successfull! ");
     });
   
   });
