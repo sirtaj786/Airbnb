@@ -71,7 +71,7 @@ app.post('/register', async (req,res) => {
           console.log(userDoc)
         });
       } else {
-        res.status(422).send('pass not ok');
+        res.status(422).send('Invalid password');
       }
     } else {
       res.send(' user does not  found');
