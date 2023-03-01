@@ -74,7 +74,7 @@ app.post('/register', async (req,res) => {
         res.status(422).send('pass not ok');
       }
     } else {
-      res.send(' user not exist not found');
+      res.send(' user does not  found');
     }
   });
 
