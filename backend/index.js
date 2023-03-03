@@ -147,14 +147,7 @@ app.post('/upload-by-link', async (req,res) => {
     });
   });
 
-  // app.get('/user-places', (req,res) => {
-  //   const {token} = req.cookies;
-  //   jwt.verify(token, process.env.SECRET_KEY, {}, async (err, userData) => {
-  //     const {id} = userData;
-  //     res.json( await Place.find({owner:id}) );
-  //   });
-  // });
-
+  
   app.get('/places/:id', async (req,res) => {
     const {id} = req.params;
     res.json(await PlaceModel.findById(id));
