@@ -181,7 +181,7 @@ app.listen(process.env.PORT,async()=>{
     try {
         await connection;
 
-        console.log("Connected to server");
+        console.log("DB Connected to server");
       } catch (err) {
         console.log("Error while connecting to MongoDB", err);
       }
